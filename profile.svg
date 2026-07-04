@@ -1,0 +1,113 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background gradient for depth -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- Glass surface gradient -->
+    <linearGradient id="glassSurface" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="white" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0.05"/>
+    </linearGradient>
+    
+    <!-- Edge highlight gradient -->
+    <linearGradient id="edgeHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0.1"/>
+    </linearGradient>
+    
+    <!-- Inner shadow for depth -->
+    <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset dx="2" dy="4" result="offsetBlur"/>
+      <feComposite in="offsetBlur" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff"/>
+      <feFlood flood-color="#000000" stop-opacity="0.15"/>
+      <feComposite in2="shadowDiff" operator="in"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+    
+    <!-- Drop shadow for floating effect -->
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
+      <feOffset dx="0" dy="12" result="offsetBlur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="offsetBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Stronger blur for backdrop simulation -->
+    <filter id="strongBlur">
+      <feGaussianBlur stdDeviation="15"/>
+    </filter>
+    
+    <!-- Profile icon: user silhouette -->
+    <g id="profileShape">
+      <!-- Head circle -->
+      <circle cx="100" cy="75" r="32"/>
+      <!-- Shoulders / body -->
+      <path d="M45 165 
+               C45 130, 65 110, 100 110 
+               C135 110, 155 130, 155 165 
+               L155 170 
+               L45 170Z"/>
+    </g>
+    
+    <!-- Inner profile shape for thin border -->
+    <g id="profileInner">
+      <circle cx="100" cy="75" r="27"/>
+      <path d="M50 165 
+               C50 133, 68 115, 100 115 
+               C132 115, 150 133, 150 165 
+               L150 167 
+               L50 167Z"/>
+    </g>
+  </defs>
+  
+  <!-- Background glow -->
+  <circle cx="100" cy="100" r="80" fill="url(#bgGlow)"/>
+  
+  <!-- Simulated blurred background elements behind glass -->
+  <g filter="url(#strongBlur)" opacity="0.6">
+    <circle cx="70" cy="70" r="25" fill="#ec4899"/>
+    <circle cx="140" cy="60" r="20" fill="#8b5cf6"/>
+    <circle cx="130" cy="130" r="30" fill="#06b6d4"/>
+    <circle cx="60" cy="140" r="18" fill="#10b981"/>
+  </g>
+  
+  <!-- Glass base shape with shadow -->
+  <use href="#profileShape" fill="url(#glassSurface)" filter="url(#dropShadow)"/>
+  
+  <!-- Inner shadow for depth -->
+  <use href="#profileShape" fill="none" filter="url(#innerShadow)"/>
+  
+  <!-- Top edge highlight on head -->
+  <path d="M100 43 A32 32 0 0 1 132 75" fill="none" stroke="white" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+  
+  <!-- Left edge highlight on head -->
+  <path d="M68 75 A32 32 0 0 1 100 43" fill="none" stroke="url(#edgeHighlight)" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+  
+  <!-- Top edge highlight on shoulders -->
+  <path d="M45 165 C45 130, 65 110, 100 110" fill="none" stroke="white" stroke-width="2" opacity="0.35" stroke-linecap="round"/>
+  
+  <!-- Left edge highlight on shoulders -->
+  <path d="M45 165 C45 130, 65 110, 100 110" fill="none" stroke="url(#edgeHighlight)" stroke-width="1.5" opacity="0.45" stroke-linecap="round"/>
+  
+  <!-- Specular highlight (shine spot on head) -->
+  <ellipse cx="85" cy="58" rx="8" ry="6" fill="white" opacity="0.3" transform="rotate(-30 85 58)"/>
+  
+  <!-- Second shine on left shoulder -->
+  <ellipse cx="62" cy="128" rx="6" ry="4" fill="white" opacity="0.25" transform="rotate(-20 62 128)"/>
+  
+  <!-- Thin border stroke -->
+  <use href="#profileShape" fill="none" stroke="white" stroke-width="1.5" opacity="0.4"/>
+  
+  <!-- Second thinner inner stroke -->
+  <use href="#profileInner" fill="none" stroke="white" stroke-width="0.5" opacity="0.2"/>
+</svg>
