@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>YAP Media Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/yap-ui.css">
+</head>
+<body>
+
+<div class="noise"></div>
+
+<div class="app">
+
+  <div class="screens">
+
+    <!-- ===== HOME ===== -->
+    <div class="screen active" id="screen-home">
+
+      <!-- STICKY HEADER -->
+      <div class="app-header">
+        <img src="Yap-logo.png" alt="YAP Media" class="app-logo">
+        <div class="app-header-right">
+          <button class="header-icon-btn" aria-label="Search" onclick="switchTab('search', document.querySelectorAll('.nav-item')[1])">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+          </button>
+          <button class="header-icon-btn" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== 1. HERO BANNER WITH VIDEO ===== -->
+      <div class="hero-banner" onclick="playContent()">
+        <div class="hero-banner-media">
+          <video
+            src="hero-video.mp4"
+            autoplay muted loop playsinline
+            class="hero-video"
+            oncanplay="this.nextElementSibling.style.display='none'"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          </video>
+          <img src="yap16.png" alt="Featured" class="hero-fallback-img">
+          <div class="hero-banner-overlay"></div>
+        </div>
+        <div class="hero-banner-content">
+          <div class="hero-tag">
+            <span class="live-pulse">Live</span>
+            <span class="badge">Featured</span>
+          </div>
+          <h1 class="hero-title">Building a Media<br>Empire from Zero</h1>
+          <p class="hero-subtitle">Hala breaks down the exact playbook she used to scale YAP Media to 8 figures</p>
+          <div class="hero-meta">
+            <span>Episode 142</span>
+            <span class="dot"></span>
+            <span>1h 24m</span>
+            <span class="dot"></span>
+            <span>12.4K listening</span>
+          </div>
+          <div class="hero-actions">
+            <button class="hero-btn hero-btn-primary" onclick="event.stopPropagation();playContent()">
+              <span>&#9654;</span> Start Session
+            </button>
+            <button class="hero-btn hero-btn-secondary" onclick="event.stopPropagation();">
+              <span>+</span> Saved Stack
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 2. RESUME SESSIONS ===== -->
+      <div class="section-header">
+        <h2 class="section-title">Resume Sessions</h2>
+        <span class="section-action" onclick="playContent()">See All</span>
+      </div>
+      <div class="horizontal-scroll" id="resume-sessions"></div>
+
+      <!-- ===== 3. MOMENTUM PICKS - 2x2 GRID ===== -->
+      <div class="section-header">
+        <h2 class="section-title">Momentum Picks</h2>
+        <span class="section-action" onclick="playContent()">Explore</span>
+      </div>
+      <div class="content-grid" id="momentum-picks"></div>
+
+      <!-- ===== 4. QUICK HITS (portrait shorts) ===== -->
+      <div class="section-header">
+        <h2 class="section-title">Quick Hits</h2>
+        <span class="section-action" onclick="playContent()">View All</span>
+      </div>
+      <div class="shorts-container" id="quick-hits"></div>
+
+      <!-- ===== 5. CURATED FOR YOU ===== -->
+      <div class="section-header">
+        <h2 class="section-title">Curated for You</h2>
+        <span class="section-action" onclick="playContent()">Refresh</span>
+      </div>
+      <div class="horizontal-scroll" id="curated-for-you"></div>
+
+      <div style="height:20px;flex-shrink:0;"></div>
+    </div>
+
+    <!-- ===== LIVE ===== -->
+    <div class="screen" id="screen-live">
+      <div class="live-hero">
+        <div class="live-hero-bg-img"></div>
+        <div class="live-hero-bg"></div>
+        <div class="live-indicator">
+          <span class="live-pulse"></span>
+          <span class="live-indicator-text">On Air</span>
+        </div>
+        <div class="live-viewers">
+          <span>&#128101;</span>
+          <span>12.4K</span>
+        </div>
+        <div class="live-hero-content">
+          <h1 class="live-title">Building a Media Empire from Zero</h1>
+          <p class="live-host">Hala Taha &middot; Episode 142</p>
+          <div class="live-actions">
+            <button class="live-btn live-btn-primary" onclick="playContent()">
+              <span>&#9654;</span> Join Live
+            </button>
+            <button class="live-btn live-btn-secondary">
+              <span>&#128172;</span> Chat
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="section-header">
+        <h2 class="section-title">Upcoming Schedule</h2>
+      </div>
+      <div class="schedule-section" id="schedule-section"></div>
+      <div class="section-header">
+        <h2 class="section-title">Recent Replays</h2>
+        <span class="section-action">All Replays</span>
+      </div>
+      <div class="replay-grid" id="replay-grid"></div>
+      <div style="height:20px;flex-shrink:0;"></div>
+    </div>
+
+    <!-- ===== SEARCH ===== -->
+    <div class="screen" id="screen-search">
+      <div class="search-bar">
+        <div class="search-input-wrap">
+          <span class="search-icon">&#128269;</span>
+          <input type="text" class="search-input" placeholder="Search podcasts, courses, creators...">
+        </div>
+      </div>
+      <div class="section-header">
+        <h2 class="section-title">Browse Categories</h2>
+      </div>
+      <div class="search-categories" id="search-categories"></div>
+      <div class="section-header">
+        <h2 class="section-title">Trending Searches</h2>
+      </div>
+      <div class="trending-searches" id="trending-searches"></div>
+      <div style="height:20px;flex-shrink:0;"></div>
+    </div>
+
+    <!-- ===== LIBRARY ===== -->
+    <div class="screen" id="screen-library">
+      <div class="library-header">
+        <h1 class="library-title">Your Library</h1>
+      </div>
+      <div class="library-tabs">
+        <button class="library-tab active">Downloads</button>
+        <button class="library-tab">History</button>
+        <button class="library-tab">Playlists</button>
+        <button class="library-tab">Courses</button>
+        <button class="library-tab">Saved</button>
+      </div>
+      <div class="download-stats">
+        <div class="stat-card"><div class="stat-value">24</div><div class="stat-label">Episodes</div></div>
+        <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Courses</div></div>
+        <div class="stat-card"><div class="stat-value">4.2</div><div class="stat-label">GB Used</div></div>
+      </div>
+      <div class="storage-bar">
+        <div class="storage-header"><span>Storage</span><span>4.2 GB / 10 GB</span></div>
+        <div class="storage-track"><div class="storage-fill"></div></div>
+      </div>
+      <div class="section-header">
+        <h2 class="section-title">Downloaded Content</h2>
+        <span class="section-action">Manage</span>
+      </div>
+      <div id="library-downloads"></div>
+      <div class="section-header">
+        <h2 class="section-title">Continue Learning</h2>
+      </div>
+      <div id="library-continue"></div>
+      <div style="height:20px;flex-shrink:0;"></div>
+    </div>
+
+    <!-- ===== PROFILE ===== -->
+    <div class="screen" id="screen-profile">
+      <div class="profile-header">
+        <div class="profile-avatar"><img src="hala.png" alt="Profile"></div>
+        <div class="profile-name">Hala Taha</div>
+        <div class="profile-handle">@halataha &middot; Premium</div>
+        <div class="profile-stats">
+          <div class="profile-stat"><div class="profile-stat-value">142</div><div class="profile-stat-label">Episodes</div></div>
+          <div class="profile-stat"><div class="profile-stat-value">2.4M</div><div class="profile-stat-label">Followers</div></div>
+          <div class="profile-stat"><div class="profile-stat-value">89</div><div class="profile-stat-label">Hours</div></div>
+        </div>
+        <div class="profile-actions">
+          <button class="profile-btn profile-btn-primary">Edit Profile</button>
+          <button class="profile-btn profile-btn-secondary">Share</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-title">Account</div>
+        <div class="settings-list">
+          <div class="settings-item"><div class="settings-icon">&#128100;</div><div class="settings-info"><div class="settings-label">Personal Information</div><div class="settings-desc">Name, email, password</div></div><span class="settings-arrow">&#8250;</span></div>
+          <div class="settings-item"><div class="settings-icon">&#128179;</div><div class="settings-info"><div class="settings-label">Subscription</div><div class="settings-desc">Premium plan &middot; Renews Dec 2024</div></div><span class="settings-arrow">&#8250;</span></div>
+          <div class="settings-item"><div class="settings-icon">&#128276;</div><div class="settings-info"><div class="settings-label">Notifications</div><div class="settings-desc">Live alerts, new episodes</div></div><span class="settings-arrow">&#8250;</span></div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-title">Community</div>
+        <div class="settings-list">
+          <div class="settings-item"><div class="settings-icon">&#128101;</div><div class="settings-info"><div class="settings-label">Creator Club</div><div class="settings-desc">Exclusive member community</div></div><span class="settings-arrow">&#8250;</span></div>
+          <div class="settings-item"><div class="settings-icon">&#128172;</div><div class="settings-info"><div class="settings-label">Comments &amp; Replies</div><div class="settings-desc">Your activity across episodes</div></div><span class="settings-arrow">&#8250;</span></div>
+          <div class="settings-item"><div class="settings-icon">&#127942;</div><div class="settings-info"><div class="settings-label">Achievements</div><div class="settings-desc">Badges and milestones</div></div><span class="settings-arrow">&#8250;</span></div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-title">Preferences</div>
+        <div class="settings-list">
+          <div class="theme-toggle-row" onclick="toggleTheme()">
+            <div class="theme-toggle-left">
+              <span class="settings-icon">&#127763;</span>
+              <div class="settings-info"><div class="settings-label" id="themeLabel">Dark Mode</div><div class="settings-desc">Switch between dark and light</div></div>
+            </div>
+            <div class="theme-switch" id="themeSwitch"></div>
+          </div>
+          <div class="settings-item"><div class="settings-icon">&#9881;</div><div class="settings-info"><div class="settings-label">Playback Settings</div><div class="settings-desc">Speed, quality, downloads</div></div><span class="settings-arrow">&#8250;</span></div>
+          <div class="settings-item"><div class="settings-icon">&#127760;</div><div class="settings-info"><div class="settings-label">Language &amp; Region</div><div class="settings-desc">English &middot; United States</div></div><span class="settings-arrow">&#8250;</span></div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="achievement">
+          <div class="achievement-icon">&#127775;</div>
+          <div class="achievement-text">
+            <div class="achievement-title">Early Adopter</div>
+            <div class="achievement-sub">One of the first 10K members on YAP</div>
+          </div>
+        </div>
+      </div>
+      <div style="height:20px;flex-shrink:0;"></div>
+    </div>
+
+  </div>
+
+  <!-- ===== MINI PLAYER ===== -->
+  <div class="mini-player-wrap" id="miniPlayer">
+    <div class="mini-player-glass">
+      <div class="mini-shimmer"></div>
+      <div class="mini-video-container">
+        <img src="yap1.png" alt="Now Playing" class="mini-cover-art" id="miniCoverArt">
+        <div class="mini-cover-overlay">
+          <button class="mini-center-play" onclick="togglePlay()" aria-label="Play">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+        <span class="mini-duration-badge">42:18</span>
+      </div>
+      <div class="mini-info-section">
+        <div class="mini-title-text" id="miniTitle">Monetize Your Voice</div>
+        <div class="mini-subtitle-text" id="miniSubtitle">Episode 3 &middot; YAP Media</div>
+        <div class="mini-progress-track" id="miniProgressTrack" onclick="seekMini(event)">
+          <div class="mini-progress-fill" id="miniProgressFill"></div>
+        </div>
+        <div class="mini-time-row">
+          <span id="miniCurrentTime">14:32</span>
+          <span id="miniTotalTime">42:18</span>
+        </div>
+        <div class="mini-controls-row">
+          <button class="mini-ctrl-btn" aria-label="Shuffle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 3 21 3 21 8"></polyline><line x1="4" y1="20" x2="21" y2="3"></line>
+              <polyline points="21 16 21 21 16 21"></polyline><line x1="15" y1="15" x2="21" y2="21"></line>
+              <line x1="4" y1="4" x2="9" y2="9"></line>
+            </svg>
+          </button>
+          <button class="mini-ctrl-btn" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+          </button>
+          <button class="mini-ctrl-btn mini-ctrl-main" id="miniPlayBtn" onclick="togglePlay()" aria-label="Play/Pause">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <button class="mini-ctrl-btn" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          </button>
+          <div class="mini-vol-wrap">
+            <button class="mini-ctrl-btn" aria-label="Volume" style="padding:4px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+            <div class="mini-vol-slider"><div class="mini-vol-fill"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('home', this)">
+      <span class="nav-icon">
+        <svg class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </span>
+      <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('search', this)">
+      <span class="nav-icon">
+        <svg class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+      </span>
+      <span class="nav-label">Search</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('library', this)">
+      <span class="nav-icon">
+        <svg class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
+        </svg>
+      </span>
+      <span class="nav-label">Library</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('live', this)">
+      <span class="nav-icon">
+        <svg class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"/>
+        </svg>
+      </span>
+      <span class="nav-label">Live</span>
+      <span class="nav-live-dot"></span>
+    </button>
+    <button class="nav-item" onclick="switchTab('profile', this)">
+      <span class="nav-icon">
+        <svg class="nav-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </span>
+      <span class="nav-label">Profile</span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="assets/js/yap-data.js"></script>
+<script src="assets/js/yap-ui.js"></script>
+</body>
+</html>
